@@ -18,3 +18,18 @@
   }
 
 }
+
+.boards {
+  display: flex;
+  width: 500px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+
+  h3 {
+    font-size: 25px;
+    margin: 15px;
+    color: white;
+  }
+}
+

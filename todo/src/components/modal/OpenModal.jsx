@@ -1,50 +1,52 @@
-import  "./openModal.scss"
-import {useRef, useState} from "react";
-import {logDOM} from "@testing-library/react";
-
+import "./openModal.scss"
+import React from "react"
+import {useState} from "react";
+import Board from "../../Board";
 
 const OpenModal = () => {
-    const  [clicked, setClicked] = useState(false);
-    const  [click, setClick] = useState(false);
-    const  [inputValueTitle, setInputValueTitle] = useState("");
-    const  [inputValueDesc, setInputValueDesc] = useState("");
-    const  [inputValueDate, setInputValueDate ]= useState("");
-    const  [obj, setObj] = useState([]);
+    const [clicked, setClicked] = useState(false);
+    const [click, setClick] = useState(false);
+    const [inputValueTitle, setInputValueTitle] = useState("");
+    const [inputValueDesc, setInputValueDesc] = useState("");
+    const [inputValueDate, setInputValueDate] = useState("");
+    const [inputValueCheck, setInputValueCheck] = useState("");
+    const [state, setState] = useState([]);
 
-    // const inputValue = useRef();
-let addItems = false;
+
     const handleAddClick = () => {
         setClicked(true)
     }
     const handleAdd = () => {
-        // setClicked(false)
+        setClicked(false)
         setClick(true)
-        obj.title = inputValueTitle;
-        obj.desc = inputValueDesc;
-        obj.date = inputValueDate;
-
-        console.log(obj)
+        setState([
+            ...state,
+            {
+                title: inputValueTitle,
+                desc: inputValueDesc,
+                date: inputValueDate,
+                checked: inputValueCheck,
+            }
+        ])
     }
 
-
-
     return (
-        <>
-         <button className="btn-add-todo" onClick={handleAddClick}>Add todo</button>
-            {clicked && <div>
-                <input className="title" placeholder="Title"   onChange={(e) => setInputValueTitle(e.target.value)}/>
-                <input className="desc" placeholder="Description"   onChange={(e) => setInputValueDesc(e.target.value)}/>
-                <input className="date" type="date"  placeholder="Date"   onChange={(e) => setInputValueDate(e.target.value)}/>
+        <div>
+            <button className="btn-add-todo" onClick={handleAddClick}>Add todo</button>
+            <div>
+                <input className="title" placeholder="Title" onChange={(e) => setInputValueTitle(e.target.value)}/>
+                <input className="desc" placeholder="Description" onChange={(e) => setInputValueDesc(e.target.value)}/>
+                <input className="date" type="date" placeholder="Date"
+                       onChange={(e) => setInputValueDate(e.target.value)}/>
+                <input className="date" type="checkbox" placeholder="Date"
+                       onChange={(e) => setInputValueCheck(e.target.value)}/>
                 <button onClick={handleAdd}>Add</button>
             </div>
-            }
-            <>
-                {click && obj.map((item) => <h1>{item}</h1>)}
-            </>
 
 
-        </>
-    )
+            {state.map((item) => <Board title={item.title} desc={item.desc} date={item.date} checked={item.checked}/>)}
+
+        </div>)
 }
 
-export  default OpenModal;
+export default OpenModal;
