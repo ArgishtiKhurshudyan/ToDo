@@ -21,13 +21,44 @@
 
 .boards {
   display: flex;
-  width: 500px;
+  width: 700px;
+  margin: 15px 02px;
   align-items: center;
-  justify-content: center;
-  border: 1px solid red;
+  background-color: #233935;
+  justify-content: space-between;
+  border-radius: 10px;
+  //border: 1px solid red;
 
+  button {
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    color: red;
+
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.3);
+    }
+  }
+
+  .edit-btn {
+    color: white;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+  }
+
+.item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    span {
+      color: #8c7e7e;
+      font-size: 20px;
+    }
+  }
   h3 {
-    font-size: 25px;
+    font-size: 22px;
     margin: 15px;
     color: white;
   }

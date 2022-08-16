@@ -1,22 +1,34 @@
-import "./components/modal/openModal.scss"
-import React, {useRef} from "react"
+import "./components/modal/openModal.scss";
+import React from "react"
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
 
-
-const Board = ({title, desc, date, checked}) => {
-    let deleteDiv = useRef()
-    const handleClick = () => {
-
-    }
-
+const Board = ({title, desc, date, checked, handleClick, item, handleEditClick}) => {
 
     return (
-        <div className="boards" ref={deleteDiv}>
-            <h3>{title}</h3>
-            <h3>{desc}</h3>
-            <h3>{date}</h3>
-            <h3>{checked}</h3>
+        <div className="boards" key={item.id}>
+            <div className="item">
+                <span>Title</span>
+                <h3>{title}</h3>
+            </div>
+            <div className="item">
+                <span>Description</span>
+                <h3>{desc}</h3>
+            </div>
+            <div className="item">
+                <span>Date</span>
+                <h3>{date}</h3>
+            </div>
+            <div className="item">
+                <span>Status</span>
+                <h3>{checked}</h3>
+            </div>
 
-            <button onClick={handleClick}>Delete</button>
+            <div>
+                <button className="edit-btn" onClick={() => handleEditClick(item)}><EditIcon/></button>
+                <button onClick={() => handleClick(item.id)}><DeleteForeverIcon/></button>
+            </div>
+
         </div>
     )
 }
