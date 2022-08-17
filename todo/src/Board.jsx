@@ -3,7 +3,7 @@ import React from "react"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 
-const Board = ({title, desc, date, checked, handleClick, item, handleEditClick}) => {
+const Board = ({title, desc, date, checked, handleDeleteClick, item, handleEditClick}) => {
 
     return (
         <div className="boards" key={item.id}>
@@ -23,10 +23,9 @@ const Board = ({title, desc, date, checked, handleClick, item, handleEditClick})
                 <span>Status</span>
                 <h3>{checked}</h3>
             </div>
-
             <div>
                 <button className="edit-btn" onClick={() => handleEditClick(item)}><EditIcon/></button>
-                <button onClick={() => handleClick(item.id)}><DeleteForeverIcon/></button>
+                <button onClick={() => handleDeleteClick(item.id)}><DeleteForeverIcon/></button>
             </div>
 
         </div>
