@@ -1,19 +1,26 @@
 import React from "react";
-
-const Modal = ({handleEditInputChange, currentTodo, changeValue, setInputValueCheck, handleUpdateTodo}) => {
+import "./modal.scss";
+const Modal = ({
+                   handleEditInputChangeTitle,
+                   handleEditInputChangeDate,
+                   handleEditInputChangeDesc,
+                   currentTodo,
+                   handleUpdateTodo
+               }) => {
     return (
-        <div>
-            <input className="title" placeholder="Title" value={currentTodo.title}
-                   onChange={handleEditInputChange}/>
-            <input className="desc" placeholder="Description" value={currentTodo.desc}
-                   onChange={handleEditInputChange}/>
-            <input className="date" type="date" placeholder="Date" value={currentTodo.date}
-                   onChange={handleEditInputChange}/>
-            <input className="date" type="checkbox" placeholder="Date"
-                   onChange={(e) => setInputValueCheck(e.target.value ? changeValue = "done" : changeValue = "")}/>
-            <button onClick={handleUpdateTodo}>update</button>
+        <div className="modal">)
+            <input className="title" placeholder="Title" name="editTitle" value={currentTodo.title}
+
+                   onChange={handleEditInputChangeTitle}/>
+            <input className="desc" placeholder="Description" name="editDesc" value={currentTodo.desc}
+                   onChange={handleEditInputChangeDesc}/>
+            <input className="date" type="date" placeholder="Date" name="editDate" value={currentTodo.date}
+                   onChange={handleEditInputChangeDate}/>
+
+            <button type="submit" onClick={handleUpdateTodo}>Update</button>
         </div>
     )
 }
 
 export default Modal
+

@@ -43,20 +43,23 @@
 
   .edit-btn {
     color: white;
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.35);
     }
   }
 
-.item {
+  .item {
     display: flex;
     align-items: center;
     flex-direction: column;
+
     span {
       color: #8c7e7e;
       font-size: 20px;
     }
   }
+
   h3 {
     font-size: 22px;
     margin: 15px;
@@ -64,3 +67,24 @@
   }
 }
 
+
+.input-item-div > input {
+  width: 149px;
+  height: 35px;
+  border-radius: 9px;
+  border: none;
+  margin: 4px;
+}
+
+.input-item-div  {
+display: flex;
+  align-items: center;
+
+  button {
+    background: transparent;
+    color: white;
+    border: 1px solid silver;
+    cursor: pointer;
+  }
+
+}
