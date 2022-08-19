@@ -51,22 +51,23 @@
 
   .item {
     display: flex;
-    align-items: center;
+    align-items: start;
     flex-direction: column;
 
     span {
       color: #8c7e7e;
       font-size: 20px;
     }
+
+
+    h3 {
+      font-size: 22px;
+      margin: 15px;
+      color: white;
+    }
   }
 
-  h3 {
-    font-size: 22px;
-    margin: 15px;
-    color: white;
-  }
 }
-
 
 .input-item-div > input {
   width: 149px;
@@ -76,8 +77,8 @@
   margin: 4px;
 }
 
-.input-item-div  {
-display: flex;
+.input-item-div {
+  display: flex;
   align-items: center;
 
   button {
@@ -87,4 +88,35 @@ display: flex;
     cursor: pointer;
   }
 
+}
+
+form {
+
+  .modal {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+
+
+    input {
+
+      width: 180px;
+      height: 30px;
+      border: none;
+      border-radius: 10px;
+      margin: 10px;
+
+    }
+
+    button {
+      width: 120px;
+      height: 30px;
+      margin: 5px auto;
+      cursor: pointer;
+      background-color: transparent;
+      border: 2px solid white;
+      color: white;
+      border-radius: 10px;
+    }
+  }
 }

@@ -1,41 +1,108 @@
 import "./openModal.scss"
-import React from "react"
+import React, {useRef} from "react"
 import {useState} from "react";
 import AddIcon from '@mui/icons-material/Add';
 
 
 const OpenModal = ({
-                       setInputValueTitle,
-                       setInputValueDesc,
-                       setInputValueDate,
-                       setInputValueCheck,
-                       handleAdd,
-                       changeValue
+                       setState,
+                       state,
+                       isEditing,
+                       handleUpdateTodo,
+                       currentTodo,
+                       setCurrentTodo
                    }) => {
-    const [clicked, setClicked] = useState(false);
-    const handleAddClick = () => {
-        setClicked(true)
+    const [title, setTitle] = useState("");
+    const [date, setDate] = useState("");
+    const [desc, setDesc] = useState("");
+
+    let changeValue = useRef();
+
+    const handleAdd = () => {
+        if (title !== "" || date !== "" || desc !== "") {
+            setState([
+                ...state,
+                {
+                    id: Date.now(),
+                    title,
+                    desc,
+                    date
+                },
+            ])
+        }
     }
 
-    const styleCheckbox = {
-        width: "34px",
-        height: "30px",
+    function handleEditInputChangeDesc(e) {
+        setCurrentTodo({
+                ...currentTodo,
+                "desc": e.target.value,
+            }
+        )
     }
+
+    function handleEditInputChangeTitle(e) {
+        setCurrentTodo({
+                ...currentTodo,
+                "title": e.target.value,
+            }
+        )
+    }
+
+    function handleEditInputChangeDate(e) {
+        setCurrentTodo({
+                ...currentTodo,
+                "date": e.target.value,
+
+            }
+        )
+    }
+
+    function handleEditInputChangeCheckbox(e) {
+        setCurrentTodo({
+                ...currentTodo,
+                "checkbox": e.target.value ? changeValue = "done" : null,
+            }
+        )
+    }
+
 
     return (
-        <div>
-            <button className="btn-add-todo" onClick={handleAddClick}>Show modal</button>
-            {clicked && <div className="input-item-div">
-                <input className="title" placeholder="Title" onChange={(e) => setInputValueTitle(e.target.value)}/>
-                <input className="desc" placeholder="Description" onChange={(e) => setInputValueDesc(e.target.value)}/>
-                <input className="date" type="date" placeholder="Date"
-                       onChange={(e) => setInputValueDate(e.target.value)}/>
-                <input style={styleCheckbox} className="checkbox" type="checkbox" value={changeValue} placeholder="Date"
-                       onChange={(e) => setInputValueCheck(e.target.value ? changeValue = "done" : changeValue = "")}/>
-                <button onClick={handleAdd}><AddIcon/></button>
+        <form>
+            <div className="input-item-div modal">
+                <input
+                    className="title"
+                    placeholder="Title"
+                    name="Title"
+                    value={isEditing ? currentTodo.title : title}
+                    onChange={isEditing ? handleEditInputChangeTitle : (e) => setTitle(e.target.value)}
+                />
+                <input
+                    className="desc"
+                    placeholder="Description"
+                    value={isEditing ? currentTodo.desc : desc}
+                    name="Desc"
+                    onChange={isEditing ? handleEditInputChangeDesc : (e) => setDesc(e.target.value)}
+                />
+                <input
+                    className="date"
+                    type="date"
+                    name="Date"
+                    value={isEditing ? currentTodo.date : date}
+                    placeholder="Date"
+                    onChange={isEditing ? handleEditInputChangeDate : (e) => setDate(e.target.value)}
+                />
+                {isEditing &&
+                <input
+                    className="date"
+                    type="checkbox"
+                    value={changeValue}
+                    onChange={handleEditInputChangeCheckbox}
+                />
+                }
+                <button type="submit" onClick={isEditing ? handleUpdateTodo : handleAdd}>{isEditing ? "Update" :
+                    <AddIcon/>}</button>
             </div>
-            }
-        </div>
+        </form>
     )
 }
 
