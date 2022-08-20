@@ -44,7 +44,6 @@ const Todo = () => {
     return (
         <>
             <h1>To Do</h1>
-
             {state.map((item) => <Board key={item.id} item={item} title={item.title}
                                         desc={item.desc} date={item.date}
                                         checked={item.checkbox} handleDeleteClick={handleDelete}

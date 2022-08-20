@@ -15,11 +15,12 @@ const OpenModal = ({
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [desc, setDesc] = useState("");
+    const [value, setValue] = useState("");
 
     let changeValue = useRef();
-
-    const handleAdd = () => {
-        if (title !== "" || date !== "" || desc !== "") {
+    const handleAdd = (e) => {
+        e.preventDefault()
+        if (title !== "" && date !== "" && desc !== "") {
             setState([
                 ...state,
                 {
@@ -29,6 +30,8 @@ const OpenModal = ({
                     date
                 },
             ])
+        } else {
+            setValue("pls fil out all fields")
         }
     }
 
@@ -67,24 +70,22 @@ const OpenModal = ({
 
 
     return (
-        <form>
+        <form onSubmit={handleAdd}>
             <div className="input-item-div modal">
+                <label style={{color:"red"}}>{value}</label>
                 <input
-                    className="title"
                     placeholder="Title"
                     name="Title"
-                    value={isEditing ? currentTodo.title : title}
+                    value={isEditing && currentTodo.title}
                     onChange={isEditing ? handleEditInputChangeTitle : (e) => setTitle(e.target.value)}
                 />
                 <input
-                    className="desc"
                     placeholder="Description"
-                    value={isEditing ? currentTodo.desc : desc}
+                    value={isEditing && currentTodo.desc}
                     name="Desc"
                     onChange={isEditing ? handleEditInputChangeDesc : (e) => setDesc(e.target.value)}
                 />
                 <input
-                    className="date"
                     type="date"
                     name="Date"
                     value={isEditing ? currentTodo.date : date}
@@ -99,7 +100,7 @@ const OpenModal = ({
                     onChange={handleEditInputChangeCheckbox}
                 />
                 }
-                <button type="submit" onClick={isEditing ? handleUpdateTodo : handleAdd}>{isEditing ? "Update" :
+                <button type="submit" onClick={isEditing ? handleUpdateTodo : null}>{isEditing ? "Update" :
                     <AddIcon/>}</button>
             </div>
         </form>
