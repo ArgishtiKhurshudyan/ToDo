@@ -2,8 +2,22 @@ import "./components/modal/openModal.scss";
 import React from "react"
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
+import Popup from "reactjs-popup";
+import OpenModal from "./components/modal/OpenModal";
 
-const Board = ({title, desc, date, checked, handleDeleteClick, item, handleEditClick}) => {
+const Board = ({
+                   title,
+                   desc,
+                   date,
+                   checked,
+                   handleDeleteClick,
+                   item,
+                   handleEditClick,
+                   currentTodo,
+                   setCurrentTodo,
+                   handleUpdateTodo,
+                   isEditing
+               }) => {
 
     return (
         <div className="boards" key={item.id}>
@@ -24,13 +38,23 @@ const Board = ({title, desc, date, checked, handleDeleteClick, item, handleEditC
                 <h3>{checked}</h3>
             </div>
             <div>
-                <button className="edit-btn" onClick={() => handleEditClick(item)}><EditIcon/></button>
+
+                <Popup
+                    trigger={<button className="edit-btn"><EditIcon onClick={() => handleEditClick(item)}/></button>}>
+                    {isEditing && <div className="modal-div">
+                        <OpenModal
+                            currentTodo={currentTodo}
+                            setCurrentTodo={setCurrentTodo}
+                            handleUpdateTodo={handleUpdateTodo}
+                            isEditing={isEditing}
+                        />
+                    </div>
+                    }
+                </Popup>
                 <button onClick={() => handleDeleteClick(item.id)}><DeleteForeverIcon/></button>
             </div>
-
         </div>
     )
 }
-
 
 export default Board;

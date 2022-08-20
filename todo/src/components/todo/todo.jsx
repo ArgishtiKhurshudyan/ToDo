@@ -38,8 +38,6 @@ const Todo = () => {
     function handleEditClick(todo) {
         setIsEditing(true);
         setCurrentTodo({...todo})
-
-
     }
 
 
@@ -50,7 +48,12 @@ const Todo = () => {
             {state.map((item) => <Board key={item.id} item={item} title={item.title}
                                         desc={item.desc} date={item.date}
                                         checked={item.checkbox} handleDeleteClick={handleDelete}
-                                        handleEditClick={handleEditClick}/>)
+                                        handleEditClick={handleEditClick}
+                                        setCurrentTodo={setCurrentTodo}
+                                        currentTodo={currentTodo}
+                                        handleUpdateTodo={handleUpdateTodo}
+                                        isEditing={isEditing}
+            />)
             })
 
             <Popup trigger={<button className="popup-btn">Open Modal</button>}
@@ -58,16 +61,9 @@ const Todo = () => {
                    className="popup-content"
                    closeOnDocumentClick>
                 <div className="modal-div">
-                    {isEditing ? <OpenModal
-                        currentTodo={currentTodo}
-                        isEditing={isEditing}
-                        setCurrentTodo={setCurrentTodo}
-                        handleUpdateTodo={handleUpdateTodo}/> : <OpenModal setState={setState} state={state}/>
-                    }
+                    <OpenModal setState={setState} state={state}/>
                 </div>
             </Popup>
-
-
         </>
     )
 }
