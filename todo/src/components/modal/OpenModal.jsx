@@ -3,108 +3,137 @@ import React, {useRef} from "react"
 import {useState} from "react";
 import AddIcon from '@mui/icons-material/Add';
 
-
 const OpenModal = ({
-                       setState,
-                       state,
-                       isEditing,
-                       handleUpdateTodo,
-                       currentTodo,
-                       setCurrentTodo
+                     setState,
+                     state,
+                     isEditing,
+                     handleUpdateTodo,
+                     currentTodo,
+                     setCurrentTodo,
                    }) => {
-    const [title, setTitle] = useState("");
-    const [date, setDate] = useState("");
-    const [desc, setDesc] = useState("");
-    const [value, setValue] = useState("");
+  const [type, setType] = useState({
+    title: "",
+    desc: "",
+    date: "",
+  });
 
-    let changeValue = useRef();
-    const handleAdd = (e) => {
-        e.preventDefault()
-        if (title !== "" && date !== "" && desc !== "") {
-            setState([
-                ...state,
-                {
-                    id: Date.now(),
-                    title,
-                    desc,
-                    date
-                },
-            ])
-        } else {
-            setValue("pls fil out all fields")
-        }
+  const [err, setErr] = useState({
+    title: "",
+    desc: "",
+    date: "",
+  })
+  const [error, setError] = useState();
+  let changeValue = useRef();
+
+  const handleChange = (e) => {
+    setType({
+      ...type,
+      [e.target.name]: e.target.value
+    })
+
+    if (isEditing) {
+      setCurrentTodo({
+        ...currentTodo,
+        [e.target.name]: e.target.value
+      })
     }
+  }
 
-    function handleEditInputChangeDesc(e) {
-        setCurrentTodo({
-                ...currentTodo,
-                "desc": e.target.value,
-            }
-        )
+  const handleAdd = (e) => {
+    e.preventDefault()
+    if (!isEditing) {
+      if (type.title.length === 5 && type.desc.length === 8 && type.date !== "") {
+        setState([
+          ...state,
+          {
+            id: Date.now(),
+            ...type,
+          },
+        ])
+      }
+    } else if (isEditing) {
+      return handleUpdateTodo()
     }
-
-    function handleEditInputChangeTitle(e) {
-        setCurrentTodo({
-                ...currentTodo,
-                "title": e.target.value,
-            }
-        )
-    }
-
-    function handleEditInputChangeDate(e) {
-        setCurrentTodo({
-                ...currentTodo,
-                "date": e.target.value,
-
-            }
-        )
-    }
-
-    function handleEditInputChangeCheckbox(e) {
-        setCurrentTodo({
-                ...currentTodo,
-                "checkbox": e.target.value ? changeValue = "done" : null,
-            }
-        )
-    }
+  }
 
 
-    return (
-        <form onSubmit={handleAdd}>
-            <div className="input-item-div modal">
-                <label style={{color:"red"}}>{value}</label>
-                <input
-                    placeholder="Title"
-                    name="Title"
-                    value={isEditing && currentTodo.title}
-                    onChange={isEditing ? handleEditInputChangeTitle : (e) => setTitle(e.target.value)}
-                />
-                <input
-                    placeholder="Description"
-                    value={isEditing && currentTodo.desc}
-                    name="Desc"
-                    onChange={isEditing ? handleEditInputChangeDesc : (e) => setDesc(e.target.value)}
-                />
-                <input
-                    type="date"
-                    name="Date"
-                    value={isEditing ? currentTodo.date : date}
-                    placeholder="Date"
-                    onChange={isEditing ? handleEditInputChangeDate : (e) => setDate(e.target.value)}
-                />
-                {isEditing &&
-                <input
-                    className="date"
-                    type="checkbox"
-                    value={changeValue}
-                    onChange={handleEditInputChangeCheckbox}
-                />
-                }
-                <button type="submit" onClick={isEditing ? handleUpdateTodo : null}>{isEditing ? "Update" :
-                    <AddIcon/>}</button>
-            </div>
-        </form>
+  function changeCheckbox(e) {
+    setCurrentTodo({
+        ...currentTodo,
+        "checkbox": e.target.value ? changeValue = "done" : null,
+      }
     )
+  }
+
+  function onBlurEvent(e) {
+    if (e.target.value === "") {
+      setError({
+        border: "2px solid red"
+      })
+    }
+    if (type.title.length !== 5) {
+      setErr({
+        ...err,
+        title: "max size 5",
+      })
+    } else if (type.desc.length !== 8) {
+      setErr({
+        ...err,
+        desc: "max size 8",
+      })
+    } else {
+      setErr({
+        ...err,
+        title: "",
+        desc: ""
+      })
+    }
+  }
+
+  return (
+    <form onSubmit={handleAdd}>
+      <div className="input-item-div modal">
+        {!isEditing ? err.title && <span style={{color: "red"}}>Title will be 5 digits</span> : ""}
+        <input
+          placeholder="Title"
+          name="title"
+          style={type.title === "" ? error : {}}
+          value={isEditing && currentTodo.title}
+          onChange={handleChange}
+          onBlur={onBlurEvent}
+        />
+        {!isEditing ? err.desc && <span style={{color: "red"}}>Description will be 8 digits</span> : ""}
+        <input
+          placeholder="Description"
+          style={type.desc === "" ? error : {}}
+          value={isEditing && currentTodo.desc}
+          name="desc"
+          onChange={handleChange}
+          onBlur={onBlurEvent}
+        />
+        <input
+          type="date"
+          name="date"
+          value={isEditing && currentTodo.date}
+          placeholder="Date"
+          style={type.date === "" ? error : {}}
+          onChange={handleChange}
+          onBlur={onBlurEvent}
+        />
+        {isEditing &&
+        <input
+          className="date"
+          type="checkbox"
+          value={changeValue}
+          onChange={changeCheckbox}
+        />
+        }
+        <button type="submit">
+          {isEditing ? "Update" : <AddIcon/>}
+        </button>
+      </div>
+    </form>
+  )
 }
 
 export default OpenModal;
